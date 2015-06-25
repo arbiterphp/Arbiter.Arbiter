@@ -8,12 +8,12 @@
         "adr",
         "action domain responder"
     ],
-    "homepage": "https://github.com/elementalphp/Elemental.Elemental",
+    "homepage": "https://github.com/elementalphp/Arbiter.Arbiter",
     "license": "MIT",
     "authors": [
         {
-            "name": "Elemental.Elemental Contributors",
-            "homepage": "https://github.com/elementalphp/Elemental.Elemental/contributors"
+            "name": "Arbiter.Arbiter Contributors",
+            "homepage": "https://github.com/elementalphp/Arbiter.Arbiter/contributors"
         }
     ],
     "require": {
@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Elemental\\": "src/"
+            "Arbiter\\": "src/"
         }
     },
     "require-dev": {
@@ -30,7 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Elemental\\": "tests/"
+            "Arbiter\\": "tests/"
         }
     }
 }

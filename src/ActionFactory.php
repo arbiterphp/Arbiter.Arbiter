@@ -1,5 +1,5 @@
 <?php
-namespace Elemental;
+namespace Arbiter;
 
 class ActionFactory
 {

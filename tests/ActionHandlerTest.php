@@ -1,5 +1,5 @@
 <?php
-namespace Elemental;
+namespace Arbiter;
 
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequestFactory;
