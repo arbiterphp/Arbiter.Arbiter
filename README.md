@@ -2,7 +2,7 @@
 
 A PSR-7 Action system for Action-Domain-Responder.
 
-This package is installable and PSR-4 autoloadable via Composer as `elemental/elemental`.
+This package is installable and PSR-4 autoloadable via Composer as `arbiter/arbiter`.
 
 Alternatively, download a release or clone this repository, then map the `Arbiter\` namespace to the package `src/` directory.
 

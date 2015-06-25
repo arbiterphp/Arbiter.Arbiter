@@ -1,5 +1,5 @@
 {
-    "name": "elemental/elemental",
+    "name": "arbiter/arbiter",
     "type": "library",
     "description": "A PSR-7 Action system for Action-Domain-Responder.",
     "keywords": [
@@ -8,12 +8,12 @@
         "adr",
         "action domain responder"
     ],
-    "homepage": "https://github.com/elementalphp/Arbiter.Arbiter",
+    "homepage": "https://github.com/arbiterphp/Arbiter.Arbiter",
     "license": "MIT",
     "authors": [
         {
             "name": "Arbiter.Arbiter Contributors",
-            "homepage": "https://github.com/elementalphp/Arbiter.Arbiter/contributors"
+            "homepage": "https://github.com/arbiterphp/Arbiter.Arbiter/contributors"
         }
     ],
     "require": {
