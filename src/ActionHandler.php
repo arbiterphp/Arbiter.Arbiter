@@ -22,19 +22,14 @@ class ActionHandler
             return $responder($request, $response);
         }
 
-        $params = $this->params($action, $request);
-        $payload = call_user_func_array($domain, $params);
-        return $responder($request, $response, $payload);
-    }
-
-    protected function params(Action $action, Request $request)
-    {
+        $params = [];
         $input = $this->resolve($action->getInput());
-        if (! $input) {
-            return [];
+        if ($input) {
+            $params = (array) $input($request);
         }
 
-        return (array) $input($request);
+        $payload = call_user_func_array($domain, $params);
+        return $responder($request, $response, $payload);
     }
 
     protected function resolve($spec)
