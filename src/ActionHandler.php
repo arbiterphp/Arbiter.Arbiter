@@ -17,12 +17,11 @@ class ActionHandler
     {
         $responder = $this->resolve($action->getResponder());
 
-        $domainSpec = $action->getDomain();
-        if (! $domainSpec) {
+        $domain = $this->resolve($action->getDomain());
+        if (! $domain) {
             return $responder($request, $response);
         }
 
-        $domain = $this->resolve($domainSpec);
         $params = $this->params($action, $request);
         $payload = call_user_func_array($domain, $params);
         return $responder($request, $response, $payload);
@@ -30,17 +29,20 @@ class ActionHandler
 
     protected function params(Action $action, Request $request)
     {
-        $inputSpec = $action->getInput();
-        if (! $inputSpec) {
+        $input = $this->resolve($action->getInput());
+        if (! $input) {
             return [];
         }
 
-        $input = $this->resolve($inputSpec);
         return (array) $input($request);
     }
 
     protected function resolve($spec)
     {
+        if (! $spec) {
+            return null;
+        }
+
         if (! $this->resolver) {
             return $spec;
         }
