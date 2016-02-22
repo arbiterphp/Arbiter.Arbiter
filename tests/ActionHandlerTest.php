@@ -58,6 +58,8 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testWithoutInput()
     {
+        $input = null;
+
         $domain = function () {
             return 'no input';
         };
@@ -67,18 +69,24 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
             return $response;
         };
 
-        $action = $this->newAction(null, $domain, $responder);
+        $action = $this->newAction($input, $domain, $responder);
 
         $this->assertResponse($action, 'no input');
     }
 
     public function testWithoutInputOrDomain()
     {
+        $input = null;
+
+        $domain = null;
+
         $responder = function ($request, $response) {
             $response->getBody()->write('no domain');
             return $response;
         };
-        $action = $this->newAction(null, null, $responder);
+
+        $action = $this->newAction($input, $domain, $responder);
+
         $this->assertResponse($action, 'no domain');
     }
 
