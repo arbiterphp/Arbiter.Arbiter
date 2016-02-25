@@ -90,6 +90,20 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertResponse($action, 'no domain');
     }
 
+    public function testWithoutResponder()
+    {
+        $input = null;
+        $domain = null;
+        $responder = null;
+        $action = $this->newAction($input, $domain, $responder);
+
+        $this->setExpectedException(
+            Exception::CLASS,
+            'Could not resolve responder for action.'
+        );
+        $this->assertResponse($action, 'no domain');
+    }
+
     public function testWithoutResolver()
     {
         $this->actionHandler = new ActionHandler();

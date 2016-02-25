@@ -16,6 +16,9 @@ class ActionHandler
     public function handle(Action $action, Request $request, Response $response)
     {
         $responder = $this->resolve($action->getResponder());
+        if (! $responder) {
+            throw new Exception('Could not resolve responder for action.');
+        }
 
         $domain = $this->resolve($action->getDomain());
         if (! $domain) {
