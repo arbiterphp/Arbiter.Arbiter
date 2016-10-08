@@ -1,8 +1,8 @@
 <?php
 namespace Arbiter;
 
-use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequestFactory;
+use Zend\Diactoros\Response;
 
 class ActionHandlerTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,8 +29,7 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
         $request = ServerRequestFactory::fromGlobals();
         $response = $this->actionHandler->handle(
             $action,
-            $request,
-            new Response()
+            $request
         );
         $this->assertEquals($expect, $response->getBody()->__toString());
     }
@@ -45,7 +44,8 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
             return "Hello $noun";
         };
 
-        $responder = function ($request, $response, $payload) {
+        $responder = function ($request, $payload) {
+            $response = new Response;
             $response->getBody()->write($payload);
             return $response;
         };
@@ -64,7 +64,8 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
             return 'no input';
         };
 
-        $responder = function ($request, $response, $payload) {
+        $responder = function ($request, $payload) {
+            $response = new Response;
             $response->getBody()->write($payload);
             return $response;
         };
@@ -80,7 +81,8 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
 
         $domain = null;
 
-        $responder = function ($request, $response) {
+        $responder = function ($request) {
+            $response = new Response;
             $response->getBody()->write('no domain');
             return $response;
         };

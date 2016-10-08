@@ -8,7 +8,6 @@
  */
 namespace Arbiter;
 
-use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
@@ -53,12 +52,10 @@ class ActionHandler
      *
      * @param Request $request The HTTP request.
      *
-     * @param Response $response The HTTP response.
-     *
      * @return Response The HTTP response.
      *
      */
-    public function handle(Action $action, Request $request, Response $response)
+    public function handle(Action $action, Request $request)
     {
         $responder = $this->resolve($action->getResponder());
         if (! $responder) {
@@ -67,7 +64,7 @@ class ActionHandler
 
         $domain = $this->resolve($action->getDomain());
         if (! $domain) {
-            return $responder($request, $response);
+            return $responder($request);
         }
 
         $params = [];
@@ -77,7 +74,7 @@ class ActionHandler
         }
 
         $payload = call_user_func_array($domain, $params);
-        return $responder($request, $response, $payload);
+        return $responder($request, $payload);
     }
 
     /**
