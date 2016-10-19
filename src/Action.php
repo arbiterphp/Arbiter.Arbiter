@@ -8,9 +8,6 @@
  */
 namespace Arbiter;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-
 /**
  *
  * Describes an action in terms of the input to be collected, the domain to be
