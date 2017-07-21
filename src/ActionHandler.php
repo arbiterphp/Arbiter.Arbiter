@@ -8,9 +8,6 @@
  */
 namespace Arbiter;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-
 /**
  *
  * Actually performs a given Action: collects input, sends that input to the
@@ -51,14 +48,14 @@ class ActionHandler
      *
      * @param Action $action The Action to perform.
      *
-     * @param Request $request The HTTP request.
+     * @param mixed $request the input context
      *
-     * @param Response $response The HTTP response.
+     * @param mixed $response the output context
      *
-     * @return Response The HTTP response.
+     * @return mixed the output of the responder
      *
      */
-    public function handle(Action $action, Request $request, Response $response)
+    public function handle(Action $action, $request, $response)
     {
         $responder = $this->resolve($action->getResponder());
         if (! $responder) {
