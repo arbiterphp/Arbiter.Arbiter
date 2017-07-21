@@ -1,9 +1,6 @@
 <?php
 namespace Arbiter;
 
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequestFactory;
-
 class ActionHandlerTest extends \PHPUnit_Framework_TestCase
 {
     protected $actionHandler;
@@ -24,21 +21,20 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
         return $this->actionFactory->newInstance($input, $domain, $responder);
     }
 
-    protected function assertResponse(Action $action, $expect)
+    protected function assertResponse(Action $action, $request, $expect)
     {
-        $request = ServerRequestFactory::fromGlobals();
         $response = $this->actionHandler->handle(
             $action,
             $request,
-            new Response()
+            []
         );
-        $this->assertEquals($expect, $response->getBody()->__toString());
+        $this->assertEquals($expect, $response['output']);
     }
 
     public function testAllElements()
     {
         $input = function ($request) {
-            return [$request->getQueryParams()['noun']];
+            return [isset($request['noun']) ? $request['noun']:''];
         };
 
         $domain = function ($noun) {
@@ -46,14 +42,14 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
         };
 
         $responder = function ($request, $response, $payload) {
-            $response->getBody()->write($payload);
+            $response['output'] = $payload;
             return $response;
         };
 
         $action = $this->newAction($input, $domain, $responder);
 
-        $_GET['noun'] = 'world';
-        $this->assertResponse($action, 'Hello world');
+        $request = ['noun' => 'world'];
+        $this->assertResponse($action, $request, 'Hello world');
     }
 
     public function testWithoutInput()
@@ -65,13 +61,13 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
         };
 
         $responder = function ($request, $response, $payload) {
-            $response->getBody()->write($payload);
+            $response['output'] = $payload;
             return $response;
         };
 
         $action = $this->newAction($input, $domain, $responder);
 
-        $this->assertResponse($action, 'no input');
+        $this->assertResponse($action, [], 'no input');
     }
 
     public function testWithoutInputOrDomain()
@@ -81,13 +77,13 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
         $domain = null;
 
         $responder = function ($request, $response) {
-            $response->getBody()->write('no domain');
+            $response['output'] = 'no domain';
             return $response;
         };
 
         $action = $this->newAction($input, $domain, $responder);
 
-        $this->assertResponse($action, 'no domain');
+        $this->assertResponse($action, [], 'no domain');
     }
 
     public function testWithoutResponder()
@@ -101,7 +97,7 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
             Exception::CLASS,
             'Could not resolve responder for action.'
         );
-        $this->assertResponse($action, 'no domain');
+        $this->assertResponse($action, [], 'no domain');
     }
 
     public function testWithoutResolver()
