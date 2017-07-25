@@ -8,3 +8,4 @@ this library that actually requires anything from PSR-7.
 ## 1.0.0
 
 This is the first stable release.
+
