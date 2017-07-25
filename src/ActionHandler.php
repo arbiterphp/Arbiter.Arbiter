@@ -48,11 +48,11 @@ class ActionHandler
      *
      * @param Action $action The Action to perform.
      *
-     * @param mixed $request the input context
+     * @param mixed $request The input context.
      *
-     * @param mixed $response the output context
+     * @param mixed $response The output context.
      *
-     * @return mixed the output of the responder
+     * @return mixed The return from the responder.
      *
      */
     public function handle(Action $action, $request, $response)
