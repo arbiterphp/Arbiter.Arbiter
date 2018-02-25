@@ -14,10 +14,10 @@ To run the tests, issue `composer install` to install the test dependencies, the
 
 An _Action_ value object is composed of three elements:
 
-- an `$input` callable: this collects input from the incoming _ServerRequestInterface_ and converts it to an array of parameters suitable for `call_user_func_array()`;
+- an `$input` callable: this collects input from the incoming _RequestContext_ and converts it to an array of parameters suitable for `call_user_func_array()`;
 
 - a `$domain` callable: this is invoked via `call_user_func_array()` using the array of parameters provided by the `$input` callable; and
 
-- a `$responder` callable: this is invoked with the incoming _ServerRequestInterface_, the outgoing _ResponseInterface_, and the result (or "payload") returned by the `$domain` callable.
+- a `$responder` callable: this is invoked with the incoming _RequestContext_, and the result (or "payload") returned by the `$domain` callable.
 
-Call the _ActionHandler_ `handle()` method with the _Action_, a _ServerRequestInterface_, and a _ResponseInterface_. The _ActionHandler_ then acts as a mediator to direct the interaction between the three callables, and returns a modified _ResponseInterface_.
+Call the _ActionHandler_ `act()` method with the _Action_, and a _RequestContext_. The _ActionHandler_ then acts as a mediator to direct the interaction between the three callables, and returns a modified _ResponseRepresentation_.
