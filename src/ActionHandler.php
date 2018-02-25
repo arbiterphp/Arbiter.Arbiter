@@ -50,12 +50,10 @@ class ActionHandler
      *
      * @param mixed $request The input context.
      *
-     * @param mixed $response The output context.
-     *
      * @return mixed The return from the responder.
      *
      */
-    public function handle(Action $action, $request, $response)
+    public function act(Action $action, $request)
     {
         $responder = $this->resolve($action->getResponder());
         if (! $responder) {
@@ -64,7 +62,7 @@ class ActionHandler
 
         $domain = $this->resolve($action->getDomain());
         if (! $domain) {
-            return $responder($request, $response);
+            return $responder($request);
         }
 
         $params = [];
@@ -74,7 +72,7 @@ class ActionHandler
         }
 
         $payload = call_user_func_array($domain, $params);
-        return $responder($request, $response, $payload);
+        return $responder($request, $payload);
     }
 
     /**

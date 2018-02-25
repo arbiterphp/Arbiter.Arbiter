@@ -1,7 +1,9 @@
 <?php
 namespace Arbiter;
 
-class ActionHandlerTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ActionHandlerTest extends TestCase
 {
     protected $actionHandler;
     protected $actionFactory;
@@ -23,10 +25,9 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
 
     protected function assertResponse(Action $action, $request, $expect)
     {
-        $response = $this->actionHandler->handle(
+        $response = $this->actionHandler->act(
             $action,
-            $request,
-            []
+            $request
         );
         $this->assertEquals($expect, $response['output']);
     }
@@ -41,9 +42,8 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
             return "Hello $noun";
         };
 
-        $responder = function ($request, $response, $payload) {
-            $response['output'] = $payload;
-            return $response;
+        $responder = function ($request, $payload) {
+            return ['output' => $payload];
         };
 
         $action = $this->newAction($input, $domain, $responder);
@@ -60,9 +60,8 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
             return 'no input';
         };
 
-        $responder = function ($request, $response, $payload) {
-            $response['output'] = $payload;
-            return $response;
+        $responder = function ($request, $payload) {
+            return ['output' => $payload];
         };
 
         $action = $this->newAction($input, $domain, $responder);
@@ -76,9 +75,8 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
 
         $domain = null;
 
-        $responder = function ($request, $response) {
-            $response['output'] = 'no domain';
-            return $response;
+        $responder = function ($request, $payload = null) {
+            return ['output' => 'no domain'];
         };
 
         $action = $this->newAction($input, $domain, $responder);
@@ -93,7 +91,7 @@ class ActionHandlerTest extends \PHPUnit_Framework_TestCase
         $responder = null;
         $action = $this->newAction($input, $domain, $responder);
 
-        $this->setExpectedException(
+        $this->expectException(
             Exception::CLASS,
             'Could not resolve responder for action.'
         );
